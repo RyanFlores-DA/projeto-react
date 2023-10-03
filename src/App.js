@@ -1,25 +1,33 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
+
+function teste(n1){
+  const ver = n1 > 1 ? 'Maior que um' : 'Igual a um';
+  return (
+    <div>{ver}</div>
+  )
+}
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [dados, setDados] = useState([]);
+    useEffect(() => {
+      fetch('http://localhost:6000/priori/')
+        .then(response => response.json())
+        .then(data => setDados(data)); 
+    }, []); 
+  
+    return (
+      <div>
+        {teste(2)}
+        {/* <div>{dados.id}</div>
+        <div>{dados.title}</div> APENAS QUANDO FOR UM ITEM UNITÁRIO*/}
+        {dados.map(item => (
+          <div key={item.id}>{item.id}</div>,
+          <div key={item.id}>{item.priori}</div>
+        ))}
+      </div>
+    );
 }
 
 export default App;
